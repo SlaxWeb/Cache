@@ -1,0 +1,34 @@
+{
+    "name": "slaxweb/cache",
+    "description": "Caching component for the SlaxWeb Framework",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tomaz Lovrec",
+            "email": "tomaz.lovrec@gmail.com"
+        }
+    ],
+    "require": {
+        "php":  ">=7.0.0"
+    },
+    "require-dev": {
+        "codeception/codeception": "~2.2",
+        "codeception/specify": "*",
+        "mockery/mockery": "~0.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "SlaxWeb\\Cache\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SlaxWeb\\Cache\\Test\\Unit\\": "tests/unit/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    }
+}

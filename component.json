@@ -1,0 +1,20 @@
+{
+    "name": "cache",
+    "description": "Caching component for the SlaxWeb Framework",
+    "type": "main",
+    "providers": {
+        "app": [
+            "\\SlaxWeb\\Cache\\Service\\Provider"
+        ],
+        "commands": [],
+        "hooks": []
+    },
+    "configFiles": [
+        "cache.php"
+    ],
+    "subcomponents": {
+        "list": {},
+        "required": false,
+        "multi": false
+    }
+}
