@@ -57,13 +57,14 @@ abstract class AbstractHandler
     /**
      * Get data
      *
-     * Gets the data from the cache based on the received name. If data is not found
-     * a 'CachedDataNotFoundException' is thrown.
+     * Gets the data from the cache based on the received name. If data is not found,
+     * an exception is thrown.
      *
      * @param string $name Data name
      * @return string
      *
-     * @throws \SlaxWeb\Cache\Exception\CachedDataNotFoundException
+     * @throws \SlaxWeb\Cache\Exception\CachedDataNotFoundException if cached data
+     *     not found
      */
     abstract public function get(string $name): string;
 
@@ -86,5 +87,44 @@ abstract class AbstractHandler
             "maxage"    =>  $maxAge >= 0 ? $maxAge : $this->maxAge,
             "data"      =>  $data
         ]);
+    }
+
+    /**
+     * Check data
+     *
+     * Unserializes, checks the data and returns it. If the data is malformed or
+     * expired an exception is thrown.
+     *
+     * @param string $serialized Serialized data
+     * @return array
+     *
+     * @throws \SlaxWeb\Cache\Exception\CacheDataInvalidException if cached data
+     *     is malformed
+     * @throws \SlaxWeb\Cache\Exception\CacheDataExpiredException if cached data
+     *     has expired
+     */
+    protected function checkData(string $serialized): array
+    {
+        $data = unserialize($serialized);
+        if (is_array($data) === false
+            || isset($data["timestamp"]) === false
+            || isset($data["maxage"]) === false
+            || isset($data["data"]) === false
+        ) {
+            throw new \SlaxWeb\Cache\Exception\CacheDataInvalidException(
+                "Cached data is malformed, unserialization cached data failed or "
+                . "did not result in an expected array",
+                $serialized
+            );
+        }
+
+        if ($data["maxage"] > 0 && time() - $data["maxage"] > $data["timestamp"]) {
+            throw new \SlaxWeb\Cache\Exception\CacheDataExpiredException(
+                "Cached data has expired.",
+                $data
+            );
+        }
+
+        return $data;
     }
 }
