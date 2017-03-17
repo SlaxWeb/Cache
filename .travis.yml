@@ -1,0 +1,13 @@
+language: php
+php:
+  - "7.1"
+  - "7.0"
+  - "hhvm-3.12"
+matrix:
+  allow_failures:
+    - php: hhvm-3.12
+install:
+  - composer self-update
+  - composer install
+script:
+  - php vendor/codeception/codeception/codecept run
