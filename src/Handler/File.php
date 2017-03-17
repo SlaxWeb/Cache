@@ -35,12 +35,14 @@ class File extends AbstractHandler
      * can write to that location, and throws an exception if that is not the case.
      *
      * @param string $path Filesystem location
+     * @param int $maxAge Default maximum age in seconds, default 0
      *
      * @todo: check location permissions and throw exception
      */
-    public function __construct(string $path)
+    public function __construct(string $path, int $maxAge = 0)
     {
         $this->path = $path;
+        $this->maxAge = $maxAge;
     }
 
     /**
