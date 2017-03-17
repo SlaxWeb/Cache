@@ -2,6 +2,9 @@
 namespace SlaxWeb\Cache\Test\Unit;
 
 use Mockery as m;
+use SlaxWeb\Cache\Exception\CacheDataInvalidException;
+use SlaxWeb\Cache\Exception\CacheDataExpiredException;
+use SlaxWeb\Cache\Exception\CacheDataNotFoundException;
 
 class FileHandlerTest extends \Codeception\Test\Unit
 {
@@ -32,6 +35,57 @@ class FileHandlerTest extends \Codeception\Test\Unit
 
         $this->assertEquals(300, $cached["maxage"]);
         $this->assertEquals("test cache data", $cached["data"]);
+    }
+
+    public function testGet()
+    {
+        $exception = false;
+        try {
+            $this->handler->get($this->cacheFile);
+        } catch (CacheDataNotFoundException $e) {
+            $exception = true;
+        }
+        $this->assertTrue($exception, "Expected a cache not found exception");
+
+        file_put_contents(
+            "{$this->cachePath}{$this->cacheFile}.cache",
+            serialize(["invalid"])
+        );
+        $exception = false;
+        try {
+            $this->handler->get($this->cacheFile);
+        } catch (CacheDataInvalidException $e) {
+            $exception = true;
+        }
+
+        file_put_contents(
+            "{$this->cachePath}{$this->cacheFile}.cache",
+            serialize([
+                "timestamp" => 1,
+                "maxage"    => 10,
+                "data"      => "cached data"
+            ])
+        );
+        $exception = false;
+        try {
+            $this->handler->get($this->cacheFile);
+        } catch (CacheDataExpiredException $e) {
+            $exception = true;
+        }
+
+        file_put_contents(
+            "{$this->cachePath}{$this->cacheFile}.cache",
+            serialize([
+                "timestamp" => time(),
+                "maxage"    => 0,
+                "data"      => "cached data"
+            ])
+        );
+        $this->assertEquals("cached data", $this->handler->get($this->cacheFile));
+    }
+
+    public function testGetNoMaxAge()
+    {
     }
 
     protected function _before()
