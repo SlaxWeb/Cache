@@ -29,7 +29,7 @@ class CacheDataExpiredException extends \Exception
      * Overriden constructor to accept unserialized data as second parameter.
      *
      * @param string $message Exception message
-     * @param string $serialized Serialized data that caused the exception
+     * @param array $data Unserialized cached data
      * @param int $code Error code, default 0
      * @param \Exception $previous Previous exception, default null
      */
