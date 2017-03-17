@@ -52,7 +52,7 @@ class File extends AbstractHandler
     {
         if (file_put_contents(
                 "{$this->path}{$name}.cache",
-                serialize($this->prepData($data, $maxAge))
+                $this->prepData($data, $maxAge)
             ) === false
         ) {
             throw new WriteException("Error writting data to cache.");
@@ -65,7 +65,7 @@ class File extends AbstractHandler
      */
     public function exists(string $name): bool
     {
-        return file_exists("{$this->path}{$name}.cache")
+        return file_exists("{$this->path}{$name}.cache");
     }
 
     /**
@@ -73,6 +73,12 @@ class File extends AbstractHandler
      */
     public function get(string $name): string
     {
-        return "";
+        if ($this->exists($name) === false) {
+            throw new \SlaxWeb\Cache\Exception\CacheDataNotFoundException(
+                "The data you are trying to obtain does not exist."
+            );
+        }
+
+        return $this->checkData(file_get_contents("{$this->path}{$name}.cache"))["data"];
     }
 }
