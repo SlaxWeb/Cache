@@ -65,7 +65,7 @@ class File extends AbstractHandler
      */
     public function exists(string $name): bool
     {
-        return false;
+        return file_exists("{$this->path}{$name}.cache")
     }
 
     /**
