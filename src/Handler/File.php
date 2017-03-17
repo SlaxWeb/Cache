@@ -1,7 +1,8 @@
 <?php
 namespace SlaxWeb\Cache\Handler;
 
-use SlaxWeb\Cache\Handler as AbstractHandler;
+use SlaxWeb\Cache\AbstractHandler;
+use SlaxWeb\Cache\Exception\WriteException;
 
 /**
  * File Cache Handler
