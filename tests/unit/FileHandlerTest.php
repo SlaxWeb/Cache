@@ -12,7 +12,6 @@ class FileHandlerTest extends \Codeception\Test\Unit
      * @var \UnitTester
      */
     protected $tester;
-
     protected $handler = null;
     protected $cachePath = __DIR__ . "/../_support/";
     protected $cacheFile = "testCache";
