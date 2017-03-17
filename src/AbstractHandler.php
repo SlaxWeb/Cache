@@ -15,8 +15,15 @@ namespace SlaxWeb\Cache;
  * @link      https://github.com/slaxweb/
  * @version   0.1
  */
-abstract class Handler
+abstract class AbstractHandler
 {
+    /**
+     * Maximum cache age
+     *
+     * @var int
+     */
+    protected $maxAge = 0;
+
     /**
      * Write
      *
@@ -25,9 +32,17 @@ abstract class Handler
      *
      * @param string $name Data name
      * @param string $data Data to cache
+     * @param int $maxAge Maximum age in seconds, default -1
      * @return self
+     *
+     * @throws \SlaxWeb\Cache\Exception\WriteException if an error occurs writting
+     *     to cache
      */
-    abstract public function write(string $name, string $data): Handler;
+    abstract public function write(
+        string $name,
+        string $data,
+        int $maxAge = -1
+    ): AbstractHandler;
 
     /**
      * Data exists
@@ -48,7 +63,28 @@ abstract class Handler
      * @param string $name Data name
      * @return string
      *
-     * @exceptions \SlaxWeb\Cache\Exception\CachedDataNotFoundException
+     * @throws \SlaxWeb\Cache\Exception\CachedDataNotFoundException
      */
     abstract public function get(string $name): string;
+
+    /**
+     * Prepare data
+     *
+     * Prepares the data for writting into cache. Adds the required timestamps,
+     * the actual data, and max age, and returns it all as a serialized array. If 
+     * he method retrieves a maximum age value as second parameter it will use it
+     * instead of the default.
+     *
+     * @param string $data User data for caching
+     * @param int $maxAge Maximum age in seconds, default -1
+     * @return string
+     */
+    protected function prepData(string $data, int $maxAge = -1): string
+    {
+        return serialize([
+            "timestamp" =>  time(),
+            "maxage"    =>  $maxAge >= 0 ? $maxAge : $this->maxAge,
+            "data"      =>  $data
+        ]);
+    }
 }
