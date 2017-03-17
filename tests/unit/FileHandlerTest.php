@@ -77,7 +77,7 @@ class FileHandlerTest extends \Codeception\Test\Unit
             "{$this->cachePath}{$this->cacheFile}.cache",
             serialize([
                 "timestamp" => time(),
-                "maxage"    => 0,
+                "maxage"    => 600,
                 "data"      => "cached data"
             ])
         );
@@ -86,6 +86,15 @@ class FileHandlerTest extends \Codeception\Test\Unit
 
     public function testGetNoMaxAge()
     {
+        file_put_contents(
+            "{$this->cachePath}{$this->cacheFile}.cache",
+            serialize([
+                "timestamp" => 1,
+                "maxage"    => 0,
+                "data"      => "cached data"
+            ])
+        );
+        $this->assertEquals("cached data", $this->handler->get($this->cacheFile));
     }
 
     protected function _before()
