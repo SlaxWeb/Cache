@@ -48,8 +48,15 @@ class File extends AbstractHandler
     /**
      * @inheritDoc
      */
-    public function write(string $name, string $data): AbstractHandler
+    public function write(string $name, string $data, int $maxAge = -1): AbstractHandler
     {
+        if (file_put_contents(
+                "{$this->path}{$name}.cache",
+                serialize($this->prepData($data, $maxAge))
+            ) === false
+        ) {
+            throw new WriteException("Error writting data to cache.");
+        }
         return $this;
     }
 
