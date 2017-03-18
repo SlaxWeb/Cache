@@ -38,7 +38,7 @@ class Provider implements \Pimple\ServiceProviderInterface
 
         $app["cacheFileHandler.service"] = function(Container $app) {
             return new \SlaxWeb\Cache\Handler\File(
-                $app["config.service"]["cache.location"]
+                $app["config.service"]["cache.location"],
                 $app["config.service"]["cache.maxAge"]
             );
         };
