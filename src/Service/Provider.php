@@ -23,7 +23,7 @@ class Provider implements \Pimple\ServiceProviderInterface
      * Called when the container is about to register this provider. It defines
      * all the required services for the Cache component.
      *
-     * @param \Pimple\Container $container Service Container
+     * @param \Pimple\Container $app Service Container
      * @return void
      */
     public function register(Container $app)
