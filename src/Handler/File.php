@@ -3,6 +3,8 @@ namespace SlaxWeb\Cache\Handler;
 
 use SlaxWeb\Cache\AbstractHandler;
 use SlaxWeb\Cache\Exception\WriteException;
+use SlaxWeb\Cache\Exception\CacheDataNotFoundException;
+use Slaxweb\Cache\Exception\CacheStoreNotWritableException;
 
 /**
  * File Cache Handler
@@ -37,10 +39,16 @@ class File extends AbstractHandler
      * @param string $path Filesystem location
      * @param int $maxAge Default maximum age in seconds, default 0
      *
-     * @todo: check location permissions and throw exception
+     * @throws \SlaxWeb\Cache\Exception\CacheStoreNotWritableException thrown if
+     *     the cache filesystem location is not writable
      */
     public function __construct(string $path, int $maxAge = 0)
     {
+        if (is_writable($path) === false) {
+            throw new CacheStoreNotWritableException(
+                "The cache filesystem location '{$path}' is not writable"
+            );
+        }
         $this->path = $path;
         $this->maxAge = $maxAge;
     }
@@ -74,7 +82,7 @@ class File extends AbstractHandler
     public function get(string $name): string
     {
         if ($this->exists($name) === false) {
-            throw new \SlaxWeb\Cache\Exception\CacheDataNotFoundException(
+            throw new CacheDataNotFoundException(
                 "The data you are trying to obtain does not exist."
             );
         }
