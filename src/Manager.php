@@ -1,6 +1,8 @@
 <?php
 namespace SlaxWeb\Cache;
 
+use SlaxWeb\Cache\Exception\WriteException;
+
 /**
  * Cache Manager
  *
@@ -54,7 +56,12 @@ class Manager
      */
     public function write(string $name, $data, int $maxAge = -1): bool
     {
-        return $this->handler->write($name, serialize($data), $maxAge);
+        try {
+            $this->handler->write($name, serialize($data), $maxAge);
+        } catch (WriteException $e) {
+            return false;
+        }
+        return true;
     }
 
     /**
