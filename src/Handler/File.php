@@ -89,4 +89,18 @@ class File extends AbstractHandler
 
         return $this->checkData(file_get_contents("{$this->path}{$name}.cache"))["data"];
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function remove(string $name): bool
+    {
+        if ($this->exists($name) === false) {
+            throw new CacheDataNotFoundException(
+                "The data you are trying to obtain does not exist."
+            );
+        }
+
+        return unlink("{$this->path}{$name}.cache");
+    }
 }

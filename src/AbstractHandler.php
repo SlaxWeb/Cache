@@ -69,6 +69,20 @@ abstract class AbstractHandler
     abstract public function get(string $name): string;
 
     /**
+     * Remove data
+     *
+     * Removes the data from the cached based on the received name. If data is not
+     * found, an exception is thrown.
+     *
+     * @param string $name Data name
+     * @return bool
+     *
+     * @throws \SlaxWeb\Cache\Exception\CachedDataNotFoundException if cached data
+     *     not found
+     */
+    abstract public function remove(string $name): bool;
+
+    /**
      * Prepare data
      *
      * Prepares the data for writting into cache. Adds the required timestamps,
