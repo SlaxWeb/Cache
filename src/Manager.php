@@ -75,6 +75,13 @@ class Manager
      */
     public function read(string $name)
     {
-        return unserialize($this->handler->get($name));
+        try {
+            return unserialize($this->handler->get($name));
+        } catch (Exception\CacheException $e) {
+            if (!($e instanceof Exception\CacheDataNotFoundException)) {
+                $this->handler->remove($name);
+            }
+            throw $e;
+        }
     }
 }
