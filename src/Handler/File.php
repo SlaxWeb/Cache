@@ -4,6 +4,7 @@ namespace SlaxWeb\Cache\Handler;
 use SlaxWeb\Cache\AbstractHandler;
 use SlaxWeb\Cache\Exception\WriteException;
 use SlaxWeb\Cache\Exception\CacheDataNotFoundException;
+use SlaxWeb\Cache\Exception\CacheDataExpiredException;
 use Slaxweb\Cache\Exception\CacheStoreNotWritableException;
 
 /**
@@ -87,7 +88,16 @@ class File extends AbstractHandler
             );
         }
 
-        return $this->checkData(file_get_contents("{$this->path}{$name}.cache"))["data"];
+        try {
+            $data = $this->checkData(
+                file_get_contents("{$this->path}{$name}.cache")
+            )["data"];
+        } catch (CacheDataExpiredException $e) {
+            $this->remove($name);
+            throw $e;
+        }
+
+        return $data;
     }
 
     /**
