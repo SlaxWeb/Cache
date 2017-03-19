@@ -88,16 +88,9 @@ class File extends AbstractHandler
             );
         }
 
-        try {
-            $data = $this->checkData(
-                file_get_contents("{$this->path}{$name}.cache")
-            )["data"];
-        } catch (CacheDataExpiredException $e) {
-            $this->remove($name);
-            throw $e;
-        }
-
-        return $data;
+        return $this->checkData(
+            file_get_contents("{$this->path}{$name}.cache")
+        )["data"];
     }
 
     /**
