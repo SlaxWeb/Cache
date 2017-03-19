@@ -13,8 +13,10 @@
         "cache.php"
     ],
     "subcomponents": {
-        "list": {},
+        "list": {
+            "cache-database": "dev-master"
+        },
         "required": false,
-        "multi": false
+        "multi": true
     }
 }
