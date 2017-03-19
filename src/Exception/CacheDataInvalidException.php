@@ -15,7 +15,7 @@ namespace SlaxWeb\Cache\Exception;
  * @link      https://github.com/slaxweb/
  * @version   0.1
  */
-class CacheDataInvalidException extends \Exception
+class CacheDataInvalidException extends CacheException
 {
     /**
      * Serialized data

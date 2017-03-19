@@ -14,7 +14,7 @@ namespace SlaxWeb\Cache\Exception;
  * @link      https://github.com/slaxweb/
  * @version   0.1
  */
-class CacheDataExpiredException extends \Exception
+class CacheDataExpiredException extends CacheException
 {
     /**
      * Unserialized cached data

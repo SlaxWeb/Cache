@@ -2,9 +2,9 @@
 namespace SlaxWeb\Cache\Exception;
 
 /**
- * Cache Store Not Writable Exception
+ * Cache Exception
  *
- * Thrown if the cache handler does not have permission to write to the cache store.
+ * Base component exception from which all component exceptions extend from.
  *
  * @package   SlaxWeb\Cache
  * @author    Tomaz Lovrec <tomaz.lovrec@gmail.com>
@@ -13,6 +13,6 @@ namespace SlaxWeb\Cache\Exception;
  * @link      https://github.com/slaxweb/
  * @version   0.1
  */
-class CacheStoreNotWritableException extends CacheException
+class CacheException extends \Exception
 {
 }

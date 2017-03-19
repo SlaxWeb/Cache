@@ -13,6 +13,6 @@ namespace SlaxWeb\Cache\Exception;
  * @link      https://github.com/slaxweb/
  * @version   0.1
  */
-class CacheDataNotFoundException extends \Exception
+class CacheDataNotFoundException extends CacheException
 {
 }
