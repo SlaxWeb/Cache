@@ -96,6 +96,19 @@ class FileHandlerTest extends \Codeception\Test\Unit
         $this->assertEquals("cached data", $this->handler->get($this->cacheFile));
     }
 
+    public function testRemove()
+    {
+        file_put_contents(
+            "{$this->cachePath}{$this->cacheFile}.cache",
+            serialize([
+                "timestamp" => 1,
+                "maxage"    => 0,
+                "data"      => "cached data"
+            ])
+        );
+        $this->assertTrue($this->handler->remove($this->cacheFile));
+    }
+
     protected function _before()
     {
         if (file_exists("{$this->cachePath}{$this->cacheFile}.cache")) {
