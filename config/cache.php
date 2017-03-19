@@ -31,7 +31,7 @@ $configuration["handler"] = "file";
  * The location depends on the handler. For 'file' handler it is the absolute path
  * to the directory where the Cache component may write to.
  */
-$configuration["location"] = __DIR__ . "/../Cache";
+$configuration["location"] = __DIR__ . "/../Cache/";
 
 /*
  * Maximum age
