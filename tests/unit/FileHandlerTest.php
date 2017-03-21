@@ -109,6 +109,15 @@ class FileHandlerTest extends \Codeception\Test\Unit
         $this->assertTrue($this->handler->remove($this->cacheFile));
     }
 
+    public function testPartialRemove()
+    {
+        system("touch {$this->cachePath}/partial_cache_file_1.cache");
+        system("touch {$this->cachePath}/partial_cache_file_2.cache");
+        $this->handler->remove("partial", true);
+        $this->assertFalse(file_exists("{$this->cachePath}/partial_cache_file_1.cache"));
+        $this->assertFalse(file_exists("{$this->cachePath}/partial_cache_file_2.cache"));
+    }
+
     protected function _before()
     {
         if (file_exists("{$this->cachePath}{$this->cacheFile}.cache")) {
