@@ -96,8 +96,12 @@ class File extends AbstractHandler
     /**
      * @inheritDoc
      */
-    public function remove(string $name): bool
+    public function remove(string $name, bool $partial = false): bool
     {
+        if ($partial) {
+            return $this->removePartial($name);
+        }
+
         if ($this->exists($name) === false) {
             throw new CacheDataNotFoundException(
                 "The data you are trying to obtain does not exist."
@@ -105,5 +109,27 @@ class File extends AbstractHandler
         }
 
         return unlink("{$this->path}{$name}.cache");
+    }
+
+    /**
+     * Remove partial
+     *
+     * Removes all files containing '$name' from the cache location.
+     *
+     * @param string $name Name of the data stored in cache
+     * @return bool
+     */
+    protected function removePartial($name): bool
+    {
+        $status = true;
+        foreach (scandir($this->path) as $file) {
+            if (pathinfo($this->path . $file, PATHINFO_EXTENSION) !== "cache") {
+                continue;
+            }
+            if (strpos($file, $name) !== false) {
+                $status = unlink($this->path . $file) && $status;
+            }
+        }
+        return $status;
     }
 }

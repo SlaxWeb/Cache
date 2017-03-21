@@ -72,15 +72,17 @@ abstract class AbstractHandler
      * Remove data
      *
      * Removes the data from the cached based on the received name. If data is not
-     * found, an exception is thrown.
+     * found, an exception is thrown. If the second parameter is set to true, all
+     * cached data containing that name will be removed.
      *
      * @param string $name Data name
+     * @param bool $partial Remove all data containing '$name', default false
      * @return bool
      *
      * @throws \SlaxWeb\Cache\Exception\CachedDataNotFoundException if cached data
      *     not found
      */
-    abstract public function remove(string $name): bool;
+    abstract public function remove(string $name, bool $partial = false): bool;
 
     /**
      * Prepare data

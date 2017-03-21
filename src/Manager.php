@@ -67,8 +67,9 @@ class Manager
     /**
      * Read
      *
-     * Reads the data from the cache and returns. It does not handle any handler
-     * thrown exceptions, and simply returns that what it receives.
+     * Reads the data from the cache and returns. If the data has expired, it will
+     * automatically remove the expired data from the cache. It does not handle
+     * any handler thrown exceptions, and simply returns that what it receives.
      *
      * @param string $name Name of the data stored in cache
      * @return mixed
@@ -83,5 +84,21 @@ class Manager
             }
             throw $e;
         }
+    }
+
+    /**
+     * Remove
+     *
+     * Removes the data from the cache. No exceptions are handled that are thrown
+     * in the handler. It accepts the name of the cached data. If the second parameter
+     * is set to true, all cached data containing that name will be removed.
+     *
+     * @param string $name Name of the data stored in cache
+     * @param bool $partial Remove all data containing '$name', default false
+     * @return bool
+     */
+    public function remove(string $name, bool $partial = false): bool
+    {
+        return $this->handler->remove($name, $partial);
     }
 }
