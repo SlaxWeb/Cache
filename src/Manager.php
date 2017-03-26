@@ -79,7 +79,7 @@ class Manager
         try {
             return unserialize($this->handler->get($name));
         } catch (Exception\CacheException $e) {
-            if (!($e instanceof Exception\CacheDataNotFoundException)) {
+            if (!($e instanceof Exception\CacheDataExpiredException)) {
                 $this->handler->remove($name);
             }
             throw $e;
