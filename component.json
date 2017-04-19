@@ -14,7 +14,7 @@
     ],
     "subcomponents": {
         "list": {
-            "cache-database": "dev-master"
+            "cache-database": "dev-release/0.1.0"
         },
         "required": false,
         "multi": true
