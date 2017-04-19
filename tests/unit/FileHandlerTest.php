@@ -70,6 +70,10 @@ class FileHandlerTest extends \Codeception\Test\Unit
             $this->handler->get($this->cacheFile);
         } catch (CacheDataExpiredException $e) {
             $exception = true;
+            $this->assertFalse(
+                file_exists("{$this->cachePath}{$this->cacheFile}.cache"),
+                "Expired cache data was not automatically removed"
+            );
         }
 
         file_put_contents(
